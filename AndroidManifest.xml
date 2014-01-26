@@ -4,21 +4,17 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-sdk
-        android:minSdkVersion="14"
-        android:targetSdkVersion="19" />
+    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="19" />
 
-    <application
-        android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
-        <activity
-            android:name="mark.zhai.nagareoto.activity.MainActivity"
-            android:label="@string/app_name" >
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <application android:allowBackup="true"
+        android:icon="@drawable/ic_launcher" android:label="@string/app_name" android:theme="@style/AppTheme" >
+        <activity android:name="mark.zhai.nagareoto.activity.MainActivity" android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -26,10 +22,22 @@
             android:name="mark.zhai.nagareoto.activity.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName="mark.zhai.nagareoto.activity.MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="mark.zhai.nagareoto.Albums" />
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="mark.zhai.nagareoto.Albums" />
         </activity>
-    </application>
 
+        <service android:name="mark.zhai.nagareoto.service.MusicService" android:exported="false" >
+            <intent-filter>
+                <action android:name="mark.zhai.nagareoto.action.TOGGLE_PLAYBACK" />
+                <action android:name="mark.zhai.nagareoto.action.PLAY" />
+                <action android:name="mark.zhai.nagareoto.action.PAUSE" />
+                <action android:name="mark.zhai.nagareoto.action.SKIP" />
+                <action android:name="mark.zhai.nagareoto.action.REWIND" />
+                <action android:name="mark.zhai.nagareoto.action.STOP" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="mark.zhai.nagareoto.action.URL" />
+                <data android:scheme="http" />
+            </intent-filter>
+        </service>
+    </application>
 </manifest>

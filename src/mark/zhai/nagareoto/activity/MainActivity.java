@@ -23,11 +23,9 @@ import android.widget.AdapterView.OnItemClickListener;
 public class MainActivity extends FragmentActivity implements OnItemClickListener {
 
     /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link android.support.v4.app.FragmentPagerAdapter} derivative, which
-     * will keep every loaded fragment in memory. If this becomes too memory
-     * intensive, it may be best to switch to a
+     * The {@link android.support.v4.view.PagerAdapter} that will provide fragments for each of the sections.
+     * We use a {@link android.support.v4.app.FragmentPagerAdapter} derivative, which will keep every loaded
+     * fragment in memory. If this becomes too memory intensive, it may be best to switch to a
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     SectionsPagerAdapter mSectionsPagerAdapter;
@@ -42,14 +40,12 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_albums);
 
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the app.
+        // Create the adapter that will return a fragment for each of the three primary sections of the app.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
-
     }
 
     @Override
@@ -60,8 +56,7 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
     }
 
     /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
+     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to one of the sections/tabs/pages.
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
@@ -72,18 +67,17 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
         @Override
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
-            // Return a DummySectionFragment (defined as a static inner class
-            // below) with the page number as its lone argument.
-            Fragment fragment = new DummySectionFragment();
+            // Return a DummySectionFragment with the page number as its lone argument.
+            Fragment fragment = new ListSectionFragment();
             Bundle args = new Bundle();
-            args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
+            args.putInt(ListSectionFragment.ARG_SECTION_NUMBER, position + 1);
             fragment.setArguments(args);
             return fragment;
         }
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
+            // Show 5 total pages.
             return 5;
         }
 
@@ -92,51 +86,23 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
             Locale l = Locale.getDefault();
             switch (position) {
             case 0:
-                return getString(R.string.title_section1).toUpperCase(l);
+                return getString(R.string.section_recent).toUpperCase(l);
             case 1:
-                return getString(R.string.title_section2).toUpperCase(l);
+                return getString(R.string.section_title).toUpperCase(l);
             case 2:
-                return getString(R.string.title_section3).toUpperCase(l);
+                return getString(R.string.section_artist).toUpperCase(l);
             case 3:
-                return getString(R.string.title_section4).toUpperCase(l);
+                return getString(R.string.section_genre).toUpperCase(l);
             case 4:
-                return getString(R.string.title_section5).toUpperCase(l);
+                return getString(R.string.section_playlist).toUpperCase(l);
             }
             return null;
-        }
-    }
-
-    /**
-     * A dummy fragment representing a section of the app, but that simply
-     * displays dummy text.
-     */
-    public static class DummySectionFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        public static final String ARG_SECTION_NUMBER = "section_number";
-
-        public DummySectionFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_albums_dummy,
-                    container, false);
-            TextView dummyTextView = (TextView) rootView
-                    .findViewById(R.id.section_label);
-            dummyTextView.setText(Integer.toString(getArguments().getInt(
-                    ARG_SECTION_NUMBER)));
-            return rootView;
         }
     }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         // TODO Auto-generated method stub
-        
-    }
 
+    }
 }
