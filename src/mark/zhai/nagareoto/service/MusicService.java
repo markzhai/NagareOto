@@ -6,14 +6,12 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
-import android.media.RemoteControlClient;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnErrorListener;
 import android.media.MediaPlayer.OnPreparedListener;
@@ -23,13 +21,13 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.util.Log;
 import android.widget.Toast;
-
 import mark.zhai.nagareoto.activity.MainActivity;
 import mark.zhai.nagareoto.AudioFocusHelper;
 import mark.zhai.nagareoto.Constants;
 import mark.zhai.nagareoto.MusicFocusable;
 import mark.zhai.nagareoto.MusicRetriever;
 import mark.zhai.nagareoto.PrepareMusicRetrieverTask;
+import mark.zhai.nagareoto.R;
 import mark.zhai.nagareoto.model.Song;
 
 /**
@@ -42,7 +40,7 @@ public class MusicService extends Service implements OnCompletionListener, OnPre
         OnErrorListener, MusicFocusable, PrepareMusicRetrieverTask.MusicRetrieverPreparedListener {
 
     // Debug tag
-    private final static String TAG = "MusicService";
+    private final static String TAG = "NagareMusicService";
 
     // Volume we set the media player to when we lose audio focus, the volume instead of stopping playback.
     public static final float DUCK_VOLUME = 0.1f;

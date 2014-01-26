@@ -2,6 +2,7 @@ package mark.zhai.nagareoto.activity;
 
 import java.util.Locale;
 
+import mark.zhai.nagareoto.Constants;
 import mark.zhai.nagareoto.R;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,8 +16,10 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -46,6 +49,22 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        
+
+        // Watch for button clicks.
+        Button button = (Button)findViewById(R.id.goto_first);
+        button.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                mViewPager.setCurrentItem(0);
+            }
+        });
+        button = (Button)findViewById(R.id.goto_last);
+        button.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                mViewPager.setCurrentItem(Constants.NUM_ITEMS-1);
+            }
+        });
+
     }
 
     @Override
@@ -66,19 +85,12 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
 
         @Override
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a DummySectionFragment with the page number as its lone argument.
-            Fragment fragment = new ListSectionFragment();
-            Bundle args = new Bundle();
-            args.putInt(ListSectionFragment.ARG_SECTION_NUMBER, position + 1);
-            fragment.setArguments(args);
-            return fragment;
+            return SectionListFragment.newInstance(position);
         }
 
         @Override
         public int getCount() {
-            // Show 5 total pages.
-            return 5;
+            return Constants.NUM_ITEMS;
         }
 
         @Override

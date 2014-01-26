@@ -14,4 +14,6 @@ public final class Constants {
     public static final String ACTION_STOP = "mark.zhai.nagareotoaction.STOP";
     public static final String ACTION_SKIP = "mark.zhai.nagareotoaction.SKIP";
     public static final String ACTION_REWIND = "mark.zhai.nagareotoaction.REWIND";
+    
+    public static final int NUM_ITEMS = 5;
 }

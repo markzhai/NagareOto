@@ -7,4 +7,7 @@
     <string name="section_artist">Artist</string>
     <string name="section_genre">Genre</string>
     <string name="section_playlist">Playlist</string>
+    <string name="first">First</string>
+    <string name="last">Last</string>
+    <string name="cover">Cover</string>
 </resources>

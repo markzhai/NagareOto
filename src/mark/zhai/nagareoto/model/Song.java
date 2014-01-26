@@ -72,4 +72,8 @@ public class Song {
     public Uri getURI() {
         return ContentUris.withAppendedId(android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, mId);
     }
+    
+    public String toString() {
+        return String.valueOf(mId) + mTitle;
+    }
 }
