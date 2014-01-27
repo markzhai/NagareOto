@@ -35,8 +35,6 @@ public class SectionListFragment extends ListFragment {
     private CursorAdapter mAdapter;
     private Context mContext;
 
-    private static String[] temp = new String[] { "中国", "俄罗斯", "英国", "法国" };
-
     /**
      * Create a new instance of CountingFragment, providing "num" as an argument.
      */
@@ -75,7 +73,6 @@ public class SectionListFragment extends ListFragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        setListAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, temp));
     }
 
     @Override
@@ -135,7 +132,6 @@ public class SectionListFragment extends ListFragment {
          */
         private synchronized void refreshList() {
             Log.i(TAG, "SectionListAdapter refreshList");
-
         }
 
         @Override

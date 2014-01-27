@@ -64,7 +64,6 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
                 mViewPager.setCurrentItem(Constants.NUM_ITEMS-1);
             }
         });
-
     }
 
     @Override
@@ -98,11 +97,11 @@ public class MainActivity extends FragmentActivity implements OnItemClickListene
             Locale l = Locale.getDefault();
             switch (position) {
             case 0:
-                return getString(R.string.section_recent).toUpperCase(l);
+                return getString(R.string.section_album).toUpperCase(l);
             case 1:
-                return getString(R.string.section_title).toUpperCase(l);
-            case 2:
                 return getString(R.string.section_artist).toUpperCase(l);
+            case 2:
+                return getString(R.string.section_recent).toUpperCase(l);
             case 3:
                 return getString(R.string.section_genre).toUpperCase(l);
             case 4:

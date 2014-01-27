@@ -2,9 +2,9 @@
 <resources>
     <string name="app_name">Nagare Oto</string>
     <string name="action_settings">Settings</string>
-    <string name="section_recent">Recent</string>
-    <string name="section_title">Title</string>
+    <string name="section_album">Album</string>
     <string name="section_artist">Artist</string>
+    <string name="section_recent">Recent</string>
     <string name="section_genre">Genre</string>
     <string name="section_playlist">Playlist</string>
     <string name="first">First</string>

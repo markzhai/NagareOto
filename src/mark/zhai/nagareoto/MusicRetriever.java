@@ -53,7 +53,7 @@ public class MusicRetriever {
      * main thread.
      */
     public void prepare() {
-        Uri uri = android.provider.Audio.Media.EXTERNAL_CONTENT_URI;
+        Uri uri = Audio.Media.EXTERNAL_CONTENT_URI;
         Log.i(TAG, "Querying media...");
         Log.i(TAG, "URI: " + uri.toString());
 
