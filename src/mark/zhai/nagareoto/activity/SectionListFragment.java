@@ -2,6 +2,7 @@ package mark.zhai.nagareoto.activity;
 
 import java.util.ArrayList;
 
+import mark.zhai.nagareoto.Constants;
 import mark.zhai.nagareoto.R;
 import mark.zhai.nagareoto.model.Song;
 import android.content.ContentResolver;
@@ -26,7 +27,7 @@ import android.widget.TextView;
 import android.provider.MediaStore.Audio;
 
 /**
- * A dummy fragment representing a section of the app, but that simply displays dummy text.
+ * Section list fragment representing a section of the app.
  */
 public class SectionListFragment extends ListFragment {
 
@@ -34,19 +35,25 @@ public class SectionListFragment extends ListFragment {
     private int mNum;
     private CursorAdapter mAdapter;
     private Context mContext;
+    
+    private static ArrayList<SectionListFragment> fragmentList = new ArrayList<SectionListFragment>(Constants.NUM_ITEMS);
 
     /**
-     * Create a new instance of CountingFragment, providing "num" as an argument.
+     * Create a new instance of Fragment, providing "num" as an argument.
      */
-    static SectionListFragment newInstance(int num) {
-        SectionListFragment f = new SectionListFragment();
-
-        // Supply num input as an argument.
-        Bundle args = new Bundle();
-        args.putInt("num", num);
-        f.setArguments(args);
-
-        return f;
+    public static SectionListFragment newInstance(int num) {
+        if (fragmentList != null && fragmentList.get(num) != null) {
+            return fragmentList.get(num);
+        } else {
+            SectionListFragment f = new SectionListFragment();
+    
+            // Supply num input as an argument.
+            Bundle args = new Bundle();
+            args.putInt("num", num);
+            f.setArguments(args);
+    
+            return f;
+        }
     }
 
     /**
