@@ -36,22 +36,20 @@ public class SectionListFragment extends ListFragment {
     private CursorAdapter mAdapter;
     private Context mContext;
     
-    private static ArrayList<SectionListFragment> fragmentList = new ArrayList<SectionListFragment>(Constants.NUM_ITEMS);
+    private static SectionListFragment[] fragmentArray = new SectionListFragment[Constants.NUM_ITEMS];
 
     /**
      * Create a new instance of Fragment, providing "num" as an argument.
      */
     public static SectionListFragment newInstance(int num) {
-        if (fragmentList != null && fragmentList.get(num) != null) {
-            return fragmentList.get(num);
+        if (fragmentArray[num] != null) {
+            return fragmentArray[num];
         } else {
             SectionListFragment f = new SectionListFragment();
-    
-            // Supply num input as an argument.
             Bundle args = new Bundle();
             args.putInt("num", num);
             f.setArguments(args);
-    
+            fragmentArray[num] = f;
             return f;
         }
     }
@@ -111,6 +109,11 @@ public class SectionListFragment extends ListFragment {
     }
 
     // MessageList.java - Line 4800
+    /**
+     * Our own SectionList Adapter, Instead of using Android Adapter.
+     * @author ZhaiYf
+     *
+     */
     public class SectionListAdapter extends CursorAdapter {
         private Context mContext;
         private LayoutInflater mInflater;
@@ -124,14 +127,14 @@ public class SectionListFragment extends ListFragment {
 
         }
 
-//        /**
-//         * Override to avoid refresh unless user forces
-//         */
-//        @Override
-//        protected void onContentChanged() {
-//            Log.i(TAG, "SectionListAdapter onContentChanged");
-//            return;
-//        }
+        /**
+         * Override to avoid refresh unless forced to do so
+         */
+        @Override
+        protected void onContentChanged() {
+            Log.i(TAG, "SectionListAdapter onContentChanged");
+            return;
+        }
 
         /**
          * Do the job of requerying list and notifying the UI of changed data Make sure we call
