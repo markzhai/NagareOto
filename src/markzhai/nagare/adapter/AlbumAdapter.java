@@ -1,0 +1,26 @@
+package markzhai.nagare.adapter;
+
+import markzhai.nagare.utils.MusicUtils;
+import android.content.Context;
+import android.database.Cursor;
+import android.provider.BaseColumns;
+import android.provider.MediaStore.Audio.AlbumColumns;
+import static markzhai.nagare.Constants.TYPE_ALBUM;
+
+public class AlbumAdapter extends GridViewAdapter {
+
+    public AlbumAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
+        super(context, layout, c, from, to, flags);
+    }
+
+    public void setupViewData(Cursor mCursor) {
+        mLineOneText = mCursor.getString(mCursor.getColumnIndexOrThrow(AlbumColumns.ALBUM));
+        mLineTwoText = mCursor.getString(mCursor.getColumnIndexOrThrow(AlbumColumns.ARTIST));
+        mGridType = TYPE_ALBUM;
+        mImageData = new String[] {
+                mCursor.getString(mCursor.getColumnIndexOrThrow(BaseColumns._ID)), mLineTwoText,
+                mLineOneText };
+        //mPlayingId = MusicUtils.getCurrentAlbumId();
+        mCurrentId = mCursor.getLong(mCursor.getColumnIndexOrThrow(BaseColumns._ID));
+    }
+}

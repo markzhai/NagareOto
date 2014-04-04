@@ -1,31 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="mark.zhai.nagareoto"
+    package="markzhai.nagare"
     android:versionCode="1"
     android:versionName="1.0" >
 
-    <uses-sdk android:minSdkVersion="11" android:targetSdkVersion="19" />
+    <uses-sdk
+        android:minSdkVersion="16"
+        android:targetSdkVersion="19" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
-    <application android:allowBackup="true"
-        android:icon="@drawable/ic_launcher" android:label="@string/app_name" android:theme="@style/AppTheme" >
-        <activity android:name="mark.zhai.nagareoto.activity.MainActivity" android:label="@string/app_name" >
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="markzhai.nagare.activity.MusicLibrary"
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="mark.zhai.nagareoto.activity.SettingsActivity"
+            android:name="markzhai.nagare.activity.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName="mark.zhai.nagareoto.activity.MainActivity" >
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="mark.zhai.nagareoto.Albums" />
+            android:parentActivityName="markzhai.nagare.activity.MusicLibrary" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="mark.zhai.nagareoto.Albums" />
         </activity>
 
-        <service android:name="mark.zhai.nagareoto.service.MusicService" android:exported="false" >
+        <service
+            android:name="markzhai.nagare.service.MusicService"
+            android:exported="false" >
             <intent-filter>
                 <action android:name="mark.zhai.nagareoto.action.TOGGLE_PLAYBACK" />
                 <action android:name="mark.zhai.nagareoto.action.PLAY" />
@@ -39,5 +51,19 @@
                 <data android:scheme="http" />
             </intent-filter>
         </service>
+
+        <activity
+            android:name="markzhai.nagare.activity.SongListActivity"
+            android:label="@string/title_song_list" >
+        </activity>
+        <activity
+            android:name="markzhai.nagare.activity.SongDetailActivityivity"
+            android:label="@string/title_song_detail"
+            android:parentActivityName="markzhai.nagare.activity.SongListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="markzhai.nagare.activity.SongListActivity" />
+        </activity>
     </application>
+
 </manifest>

@@ -1,0 +1,44 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="1dip"
+    android:background="@drawable/gallery_thumb">
+
+    <android.support.v4.view.ViewPager
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_weight="1"
+        tools:context=".MusicLibrary" >
+        <!-- Title strip will display the currently visible page title and page titles for adjacent pages. -->
+        <android.support.v4.view.PagerTitleStrip
+            android:id="@+id/pager_title_strip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:background="#33b5e5"
+            android:paddingBottom="4dp"
+            android:paddingTop="4dp"
+            android:textColor="#fff" >
+        </android.support.v4.view.PagerTitleStrip>
+    </android.support.v4.view.ViewPager>
+
+    <LinearLayout android:orientation="horizontal"
+            android:gravity="center" android:measureWithLargestChild="true"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_weight="0">
+        <Button android:id="@+id/goto_first"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="@string/first">
+        </Button>
+        <Button android:id="@+id/goto_last"
+            android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="@string/last">
+        </Button>
+    </LinearLayout>
+
+</LinearLayout>
