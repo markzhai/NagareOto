@@ -1,4 +1,4 @@
-package markzhai.nagare.utils;
+package markzhai.nagare.helper;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -11,7 +11,7 @@ import java.lang.ref.WeakReference;
 
 import markzhai.nagare.R;
 import markzhai.nagare.cache.ImageInfo;
-import markzhai.nagare.utils.ImageUtils;
+import markzhai.nagare.helper.utils.ImageUtils;
 
 public class GetBitmapTask extends AsyncTask<String, Integer, Bitmap> {
     private WeakReference<OnBitmapReadyListener> mListenerReference;
@@ -19,7 +19,8 @@ public class GetBitmapTask extends AsyncTask<String, Integer, Bitmap> {
     private ImageInfo mImageInfo;
     private int mThumbSize;
 
-    public GetBitmapTask(int thumbSize, ImageInfo imageInfo, OnBitmapReadyListener listener, Context context) {
+    public GetBitmapTask(int thumbSize, ImageInfo imageInfo, OnBitmapReadyListener listener,
+            Context context) {
         mListenerReference = new WeakReference<OnBitmapReadyListener>(listener);
         mContextReference = new WeakReference<Context>(context);
         mImageInfo = imageInfo;
@@ -37,6 +38,8 @@ public class GetBitmapTask extends AsyncTask<String, Integer, Bitmap> {
 
         if (mImageInfo.source.equals(SRC_FILE) && !isCancelled()) {
             nFile = ImageUtils.getImageFromMediaStore(context, mImageInfo);
+        } else if (mImageInfo.source.equals(SRC_LASTFM) && !isCancelled()) {
+            nFile = ImageUtils.getImageFromWeb(context, mImageInfo);
         } else if (mImageInfo.source.equals(SRC_GALLERY) && !isCancelled()) {
             nFile = ImageUtils.getImageFromGallery(context, mImageInfo);
         } else if (mImageInfo.source.equals(SRC_FIRST_AVAILABLE) && !isCancelled()) {
@@ -54,6 +57,9 @@ public class GetBitmapTask extends AsyncTask<String, Integer, Bitmap> {
             if (mImageInfo.type.equals(TYPE_ALBUM)) {
                 nFile = ImageUtils.getImageFromMediaStore(context, mImageInfo);
             }
+            if (nFile == null
+                    && (mImageInfo.type.equals(TYPE_ALBUM) || mImageInfo.type.equals(TYPE_ARTIST)))
+                nFile = ImageUtils.getImageFromWeb(context, mImageInfo);
         }
         if (nFile != null) {
             // if requested size is normal return it
@@ -71,13 +77,16 @@ public class GetBitmapTask extends AsyncTask<String, Integer, Bitmap> {
         OnBitmapReadyListener listener = mListenerReference.get();
         if (bitmap == null && !isCancelled()) {
             if (mImageInfo.size.equals(SIZE_THUMB))
-                bitmap = BitmapFactory.decodeResource(mContextReference.get().getResources(), R.drawable.no_art_small);
+                bitmap = BitmapFactory.decodeResource(mContextReference.get().getResources(),
+                        R.drawable.no_art_small);
             else if (mImageInfo.size.equals(SIZE_NORMAL))
-                bitmap = BitmapFactory.decodeResource(mContextReference.get().getResources(), R.drawable.no_art_normal);
+                bitmap = BitmapFactory.decodeResource(mContextReference.get().getResources(),
+                        R.drawable.no_art_normal);
         }
         if (bitmap != null && !isCancelled()) {
             if (listener != null) {
-                listener.bitmapReady(bitmap, ImageUtils.createShortTag(mImageInfo) + mImageInfo.size);
+                listener.bitmapReady(bitmap, ImageUtils.createShortTag(mImageInfo)
+                        + mImageInfo.size);
             }
         }
     }

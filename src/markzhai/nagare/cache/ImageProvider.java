@@ -12,57 +12,57 @@ import android.os.AsyncTask;
 import android.util.DisplayMetrics;
 import android.widget.ImageView;
 import markzhai.nagare.R;
-import markzhai.nagare.utils.GetBitmapTask;
-import markzhai.nagare.utils.ImageUtils;
-
+import markzhai.nagare.helper.GetBitmapTask;
+import markzhai.nagare.helper.utils.ImageUtils;
 import static markzhai.nagare.Constants.*;
-
-
 
 import java.util.*;
 
-public class ImageProvider implements GetBitmapTask.OnBitmapReadyListener{
+public class ImageProvider implements GetBitmapTask.OnBitmapReadyListener {
 
     private ImageCache memCache;
 
     private Map<String, Set<ImageView>> pendingImagesMap = new HashMap<String, Set<ImageView>>();
 
     private Set<String> unavailable = new HashSet<String>();
-    
+
     private Context mContext;
-    
+
     private int thumbSize;
-    
-    private static  ImageProvider mInstance;
-    
-    protected ImageProvider( Activity activity ) {
-    	mContext = activity;
-    	memCache = ImageCache.getInstance( activity );
-    	Resources resources = mContext.getResources();
-    	DisplayMetrics metrics = resources.getDisplayMetrics();
-    	thumbSize = (int) ( ( 153 * (metrics.densityDpi/160f) ) + 0.5f );
+
+    private static ImageProvider mInstance;
+
+    protected ImageProvider(Activity activity) {
+        mContext = activity;
+        memCache = ImageCache.getInstance(activity);
+        Resources resources = mContext.getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        thumbSize = (int) ((153 * (metrics.densityDpi / 160f)) + 0.5f);
     }
-    
-    public final static ImageProvider getInstance( final Activity activity ) {    	
+
+    public final static ImageProvider getInstance(final Activity activity) {
         if (mInstance == null) {
-            mInstance = new ImageProvider( activity );
+            mInstance = new ImageProvider(activity);
             mInstance.setImageCache(ImageCache.findOrCreateCache(activity));
         }
-        return mInstance;        
+        return mInstance;
     }
-    
+
     public void setImageCache(final ImageCache cacheCallback) {
-    	memCache = cacheCallback;
+        memCache = cacheCallback;
     }
-    
-    public void loadImage( ImageView imageView, ImageInfo imageInfo ){
-    	String tag = ImageUtils.createShortTag(imageInfo) + imageInfo.size;
-    	if( imageInfo.source.equals(SRC_FILE) || imageInfo.source.equals(SRC_LASTFM) || imageInfo.source.equals(SRC_GALLERY)){
-    		clearFromMemoryCache( ImageUtils.createShortTag(imageInfo) );
-    		asyncLoad( tag, imageView, new GetBitmapTask( thumbSize, imageInfo, this, imageView.getContext() ) );
-		}
-    	if(!setCachedBitmap(imageView, tag)){
-            asyncLoad( tag, imageView, new GetBitmapTask( thumbSize, imageInfo, this, imageView.getContext() ) );
+
+    public void loadImage(ImageView imageView, ImageInfo imageInfo) {
+        String tag = ImageUtils.createShortTag(imageInfo) + imageInfo.size;
+        if (imageInfo.source.equals(SRC_FILE) || imageInfo.source.equals(SRC_LASTFM)
+                || imageInfo.source.equals(SRC_GALLERY)) {
+            clearFromMemoryCache(ImageUtils.createShortTag(imageInfo));
+            asyncLoad(tag, imageView,
+                    new GetBitmapTask(thumbSize, imageInfo, this, imageView.getContext()));
+        }
+        if (!setCachedBitmap(imageView, tag)) {
+            asyncLoad(tag, imageView,
+                    new GetBitmapTask(thumbSize, imageInfo, this, imageView.getContext()));
         }
     }
 
@@ -88,10 +88,9 @@ public class ImageProvider implements GetBitmapTask.OnBitmapReadyListener{
         if (!tag.equals(imageView.getTag()))
             return;
 
-        final TransitionDrawable transition = new TransitionDrawable(new Drawable[]{
+        final TransitionDrawable transition = new TransitionDrawable(new Drawable[] {
                 new ColorDrawable(android.R.color.transparent),
-                new BitmapDrawable(imageView.getResources(), bitmap)
-        });
+                new BitmapDrawable(imageView.getResources(), bitmap) });
 
         imageView.setImageDrawable(transition);
         final int duration = imageView.getResources().getInteger(R.integer.image_fade_in_duration);
@@ -101,7 +100,9 @@ public class ImageProvider implements GetBitmapTask.OnBitmapReadyListener{
     private void asyncLoad(String tag, ImageView imageView, AsyncTask<String, Integer, Bitmap> task) {
         Set<ImageView> pendingImages = pendingImagesMap.get(tag);
         if (pendingImages == null) {
-            pendingImages = Collections.newSetFromMap(new WeakHashMap<ImageView, Boolean>()); // create weak set
+            pendingImages = Collections.newSetFromMap(new WeakHashMap<ImageView, Boolean>()); // create
+                                                                                              // weak
+                                                                                              // set
             pendingImagesMap.put(tag, pendingImages);
             task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
         }
@@ -114,9 +115,7 @@ public class ImageProvider implements GetBitmapTask.OnBitmapReadyListener{
     public void bitmapReady(Bitmap bitmap, String tag) {
         if (bitmap == null) {
             unavailable.add(tag);
-        }
-        else
-        {
+        } else {
             memCache.add(tag, bitmap);
         }
         Set<ImageView> pendingImages = pendingImagesMap.get(tag);
@@ -127,33 +126,33 @@ public class ImageProvider implements GetBitmapTask.OnBitmapReadyListener{
             }
         }
     }
-    
-    public void clearFromMemoryCache(String tag){
+
+    public void clearFromMemoryCache(String tag) {
         if (unavailable.contains(tag + SIZE_THUMB)) {
-        	unavailable.remove(tag + SIZE_THUMB);
+            unavailable.remove(tag + SIZE_THUMB);
         }
-        if (pendingImagesMap.get(tag + SIZE_THUMB)!=null){
-        	pendingImagesMap.remove(tag + SIZE_THUMB);
+        if (pendingImagesMap.get(tag + SIZE_THUMB) != null) {
+            pendingImagesMap.remove(tag + SIZE_THUMB);
         }
-        if (memCache.get(tag + SIZE_THUMB)!=null){
-        	memCache.remove(tag + SIZE_THUMB);
+        if (memCache.get(tag + SIZE_THUMB) != null) {
+            memCache.remove(tag + SIZE_THUMB);
         }
         if (unavailable.contains(tag + SIZE_NORMAL)) {
-        	unavailable.remove(tag + SIZE_NORMAL);
+            unavailable.remove(tag + SIZE_NORMAL);
         }
-        if (pendingImagesMap.get(tag + SIZE_NORMAL)!=null){
-        	pendingImagesMap.remove(tag + SIZE_NORMAL);
+        if (pendingImagesMap.get(tag + SIZE_NORMAL) != null) {
+            pendingImagesMap.remove(tag + SIZE_NORMAL);
         }
-        if (memCache.get(tag + SIZE_NORMAL)!=null){
-        	memCache.remove(tag + SIZE_NORMAL);
+        if (memCache.get(tag + SIZE_NORMAL) != null) {
+            memCache.remove(tag + SIZE_NORMAL);
         }
     }
-    
-    public void clearAllCaches(){
-    	try{
-    		ImageUtils.deleteDiskCache(mContext);
-    		memCache.clearMemCache();
-    	}
-    	catch(Exception e){}
+
+    public void clearAllCaches() {
+        try {
+            ImageUtils.deleteDiskCache(mContext);
+            memCache.clearMemCache();
+        } catch (Exception e) {
+        }
     }
 }

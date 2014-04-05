@@ -1,6 +1,6 @@
 package markzhai.nagare.adapter;
 
-import markzhai.nagare.utils.MusicUtils;
+import markzhai.nagare.helper.utils.MusicUtils;
 import android.content.Context;
 import android.database.Cursor;
 import android.provider.BaseColumns;

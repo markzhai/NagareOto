@@ -1,4 +1,4 @@
-package markzhai.nagare.utils;
+package markzhai.nagare.helper.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,7 +8,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import markzhai.nagare.cache.ImageInfo;
-
+import markzhai.nagare.helper.lastfm.Album;
+import markzhai.nagare.helper.lastfm.Artist;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
@@ -17,7 +18,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.BaseColumns;
 import android.provider.MediaStore.Audio;
-
 import static markzhai.nagare.Constants.*;
 
 public class ImageUtils {
@@ -25,8 +25,7 @@ public class ImageUtils {
     private static final String IMAGE_EXTENSION = ".img";
 
     private static File getFile(Context context, ImageInfo imageInfo) {
-        return new File(context.getExternalCacheDir(), createShortTag(imageInfo)
-                + IMAGE_EXTENSION);
+        return new File(context.getExternalCacheDir(), createShortTag(imageInfo) + IMAGE_EXTENSION);
     }
 
     public static Bitmap getNormalImageFromDisk(Context context, ImageInfo imageInfo) {
@@ -38,8 +37,7 @@ public class ImageUtils {
         return bitmap;
     }
 
-    public static Bitmap getThumbImageFromDisk(Context context, ImageInfo imageInfo,
-            int thumbSize) {
+    public static Bitmap getThumbImageFromDisk(Context context, ImageInfo imageInfo, int thumbSize) {
         File nFile = getFile(context, imageInfo);
         return getThumbImageFromDisk(context, nFile, thumbSize);
     }
@@ -79,13 +77,12 @@ public class ImageUtils {
     }
 
     public static File getImageFromGallery(Context context, ImageInfo imageInfo) {
-        String albumArt = (imageInfo.type == TYPE_ALBUM) ? imageInfo.data[3]
-                : imageInfo.data[1];
+        String albumArt = (imageInfo.type == TYPE_ALBUM) ? imageInfo.data[3] : imageInfo.data[1];
         if (albumArt != null) {
             try {
                 File orgFile = new File(albumArt);
-                File newFile = new File(context.getExternalCacheDir(),
-                        createShortTag(imageInfo) + IMAGE_EXTENSION);
+                File newFile = new File(context.getExternalCacheDir(), createShortTag(imageInfo)
+                        + IMAGE_EXTENSION);
                 InputStream in = new FileInputStream(orgFile);
                 OutputStream out = new FileOutputStream(newFile);
                 byte[] buf = new byte[1024];
@@ -102,16 +99,44 @@ public class ImageUtils {
         return null;
     }
 
+    public static File getImageFromWeb(Context context, ImageInfo imageInfo) {
+        String imageUrl = null;
+        try {
+            if (imageInfo.type.equals(TYPE_ALBUM)) {
+                Album image = Album.getInfo(imageInfo.data[1], imageInfo.data[2], LASTFM_API_KEY);
+                if (image != null) {
+                    imageUrl = image.getLargestImage();
+                }
+            } else if (imageInfo.type.equals(TYPE_ARTIST)) {
+                Artist image = Artist.getInfo(imageInfo.data[0], LASTFM_API_KEY);
+                if (image != null) {
+                    imageUrl = image.getLargestImage();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        if (imageUrl == null || imageUrl.isEmpty()) {
+            return null;
+        }
+        File newFile = getFile(context, imageInfo);
+        NagareUtils.downloadFile(imageUrl, newFile);
+        if (newFile.exists()) {
+            return newFile;
+        }
+        return null;
+    }
+
     public static File getImageFromMediaStore(Context context, ImageInfo imageInfo) {
         String mAlbum = imageInfo.data[0];
-        String[] projection = { BaseColumns._ID, Audio.Albums._ID,
-                Audio.Albums.ALBUM_ART, Audio.Albums.ALBUM };
+        String[] projection = { BaseColumns._ID, Audio.Albums._ID, Audio.Albums.ALBUM_ART,
+                Audio.Albums.ALBUM };
         Uri uri = Audio.Albums.EXTERNAL_CONTENT_URI;
         Cursor cursor = null;
         try {
             cursor = context.getContentResolver().query(uri, projection,
-                    BaseColumns._ID + "=" + DatabaseUtils.sqlEscapeString(mAlbum), null,
-                    null);
+                    BaseColumns._ID + "=" + DatabaseUtils.sqlEscapeString(mAlbum), null, null);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -170,4 +195,5 @@ public class ImageUtils {
         NagareUtils.escapeForFileSystem(tag);
         return tag;
     }
+
 }

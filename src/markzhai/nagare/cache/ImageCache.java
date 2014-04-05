@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.LruCache;
 
-
 public final class ImageCache {
 
     private static final String TAG = ImageCache.class.getSimpleName();
@@ -30,10 +29,9 @@ public final class ImageCache {
     }
 
     public void init(final Context context) {
-        final ActivityManager activityManager = (ActivityManager)context
+        final ActivityManager activityManager = (ActivityManager) context
                 .getSystemService(Context.ACTIVITY_SERVICE);
-        final int lruCacheSize = Math.round(0.25f * activityManager.getMemoryClass()
-                * 1024 * 1024);
+        final int lruCacheSize = Math.round(0.25f * activityManager.getMemoryClass() * 1024 * 1024);
         mLruCache = new LruCache<String, Bitmap>(lruCacheSize) {
             @Override
             protected int sizeOf(final String paramString, final Bitmap paramBitmap) {
@@ -43,14 +41,14 @@ public final class ImageCache {
         };
     }
 
-    public static final ImageCache findOrCreateCache(final Activity activity) {    	
-    	FragmentManager nFragmentManger = activity.getFragmentManager();
-        RetainFragment retainFragment = (RetainFragment)nFragmentManger.findFragmentByTag(TAG);
+    public static final ImageCache findOrCreateCache(final Activity activity) {
+        FragmentManager nFragmentManger = activity.getFragmentManager();
+        RetainFragment retainFragment = (RetainFragment) nFragmentManger.findFragmentByTag(TAG);
         if (retainFragment == null) {
             retainFragment = new RetainFragment();
             nFragmentManger.beginTransaction().add(retainFragment, TAG).commit();
         }
-        ImageCache cache = (ImageCache)retainFragment.getObject();
+        ImageCache cache = (ImageCache) retainFragment.getObject();
         if (cache == null) {
             cache = getInstance(activity);
             retainFragment.setObject(cache);
@@ -85,7 +83,7 @@ public final class ImageCache {
             mLruCache.remove(key);
         }
     }
-    
+
     public void clearMemCache() {
         if (mLruCache != null) {
             mLruCache.evictAll();
@@ -99,15 +97,18 @@ public final class ImageCache {
 
         public RetainFragment() {
         }
+
         @Override
         public void onCreate(final Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             // Make sure this Fragment is retained over a configuration change
             setRetainInstance(true);
         }
+
         public void setObject(final Object object) {
             mObject = object;
         }
+
         public Object getObject() {
             return mObject;
         }

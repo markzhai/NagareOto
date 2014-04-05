@@ -8,6 +8,9 @@ package markzhai.nagare;
  * 
  */
 public final class Constants {
+    // Last.fm API
+    public final static String LASTFM_API_KEY = "0bec3f7ec1f914d7c960c12a916c8fb3";
+    
     public static final String ACTION_TOGGLE_PLAYBACK = "mark.zhai.nagareotoaction.TOGGLE_PLAYBACK";
     public static final String ACTION_PLAY = "mark.zhai.nagareotoaction.PLAY";
     public static final String ACTION_PAUSE = "mark.zhai.nagareotoaction.PAUSE";

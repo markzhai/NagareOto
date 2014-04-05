@@ -2,8 +2,8 @@ package markzhai.nagare.fragment;
 
 import markzhai.nagare.R;
 import markzhai.nagare.adapter.GridViewAdapter;
+import markzhai.nagare.helper.utils.NagareUtils;
 import markzhai.nagare.service.NagareService;
-import markzhai.nagare.utils.NagareUtils;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;

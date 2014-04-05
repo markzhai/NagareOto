@@ -23,6 +23,5 @@ public class ImageInfo {
 		//file 	-     needs album ID
 		//gallery -   needs file path to image
 		//first_available - needs both file & lastFM data		
-	public String[] data;
-	
+	public String[] data;	
 }

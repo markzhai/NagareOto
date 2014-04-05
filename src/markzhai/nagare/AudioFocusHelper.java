@@ -20,12 +20,13 @@ import android.content.Context;
 import android.media.AudioManager;
 
 /**
- * Convenience class to deal with audio focus. This class deals with everything related to audio focus: it can
- * request and abandon focus, and will intercept focus change events and deliver them to a MusicFocusable
- * interface (which, in our case, is implemented by {@link MusicService}).
+ * Convenience class to deal with audio focus. This class deals with everything
+ * related to audio focus: it can request and abandon focus, and will intercept
+ * focus change events and deliver them to a MusicFocusable interface (which, in
+ * our case, is implemented by {@link MusicService}).
  * 
- * This class can only be used on SDK level 8 and above, since it uses API features that are not available on
- * previous SDK's.
+ * This class can only be used on SDK level 8 and above, since it uses API
+ * features that are not available on previous SDK's.
  */
 public class AudioFocusHelper implements AudioManager.OnAudioFocusChangeListener {
     AudioManager mAM;
@@ -48,8 +49,8 @@ public class AudioFocusHelper implements AudioManager.OnAudioFocusChangeListener
     }
 
     /**
-     * Called by AudioManager on audio focus changes. We implement this by calling our MusicFocusable
-     * appropriately to relay the message.
+     * Called by AudioManager on audio focus changes. We implement this by
+     * calling our MusicFocusable appropriately to relay the message.
      */
     public void onAudioFocusChange(int focusChange) {
         if (mFocusable == null)
