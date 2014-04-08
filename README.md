@@ -14,6 +14,12 @@ Initially I want to add the function, but I found that it was not open-source.
 *  Nearly all of them use artwork provided by Android MediaStore API, while
 I have some DIY albums that were made up of songs from different albums.
 
+Notes
+----
+### Itunes Import
+* Seems Android MediaStore cannot recognize AAC tag from Itunes which is converted from XLD. I think I can do it by parsing the directory(artist/album/tracknumber+title
+* Last.fm is used to download artwork.
+
 Plan
 ----
 ### What I want to make is
