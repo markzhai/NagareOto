@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
     <string name="app_name">Nagare Oto</string>
     <string name="action_settings">Settings</string>
@@ -14,6 +14,29 @@
     <string name="title_song_list">Songs</string>
     <string name="title_song_detail">Song Detail</string>
 
+    <!-- Content descriptions for the Bottom Action Bar -->
+    <string name="cd_favorite">Make this a favorite song</string>
+    <string name="cd_search">Search through your music</string>
+    <string name="cd_overflow">View more options</string>
+    <string name="cd_bottom_action_bar_album_art">Album art for this song</string>
+    <string name="cd_repeat">Repeat one or all</string>
+    <string name="cd_previous">Skip backwards</string>
+    <string name="cd_play">Play and pause</string>
+    <string name="cd_next">Skip forwards</string>
+    <string name="cd_shuffle">Shuffle tracks</string>
+
+    <!-- AudioPlayer title -->
+    <string name="nowplaying">Now playing</string>
+
+    <!-- Used to indicate the number of albums for an artist -->
+    <plurals name="Nalbums">
+
+        <!-- Number of albums is one -->
+        <item quantity="one">1 album</item>
+        <!-- Number of albums is more than one -->
+        <item quantity="other"><xliff:g id="count">%d</xliff:g> albums</item>
+    </plurals>
+    
     <!-- ContextMenu items -->
     <string name="play_all">Play all</string>
     <string name="add_to_playlist">Add to playlist</string>
